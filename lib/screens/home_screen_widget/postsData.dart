@@ -34,44 +34,84 @@ class PostHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 20.0,
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Card(
+        elevation: 20.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+        ),
+        child: ListTile(
+          contentPadding: EdgeInsets.all(30.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(20.0),
+            ),
+          ),
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) => DialogBox(
+              index: index,
+              postlist: postlist,
+            ),
+          ),
+          leading: Text(
+            'ID: ' + postlist[index].id.toString(),
+            style: kHeadingStyle,
+            textAlign: TextAlign.center,
+          ),
+          title: Expanded(
+            child: Text(
+              'Title: ' + postlist[index].title,
+              style: kHeadingStyle,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DialogBox extends StatelessWidget {
+  DialogBox({
+    this.postlist,
+    this.index,
+  });
+
+  final List<Posts> postlist;
+  final int index;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(20.0),
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'ID: ' + postlist[index].id.toString(),
-                  style: kHeadingStyle,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  width: 20.0,
-                ),
-                Expanded(
-                  child: Text(
-                    'Title: ' + postlist[index].title,
-                    style: kHeadingStyle,
-                  ),
-                ),
-              ],
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'ID: ' + postlist[index].id.toString(),
+            style: kHeadingStyle,
+          ),
+          SizedBox(
+            width: 20.0,
+          ),
+          Expanded(
+            child: Text(
+              'Title: ' + postlist[index].title,
+              style: kHeadingStyle,
             ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Text(
-              postlist[index].body,
-              style: kBodyStyle,
-            ),
-          ],
+          ),
+        ],
+      ),
+      content: Expanded(
+        child: Text(
+          'Title: ' + postlist[index].body,
+          style: kBodyStyle,
         ),
       ),
     );
